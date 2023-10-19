@@ -25,7 +25,6 @@ public class RedirectUrlCreator {
 
     public String createTargetUrl(String accessToken, String userId) throws IOException {
         String redirectUrl = url;
-        System.out.println("redirectUrl = " + redirectUrl);
         redirectUrl = UriComponentsBuilder.fromUriString(redirectUrl)
                 .queryParam("accessToken", accessToken)
                 .queryParam("userId", userId)

@@ -13,10 +13,15 @@ public class UserFindDao {
 
     private final UserRepository userRepository;
 
-    public User findByUserId(String uuid){
-        final Optional<User> user = userRepository.findByUserId(uuid);
+    public User findByUserUuId(String uuid){
+        final Optional<User> user = userRepository.findByUserUuid(uuid);
         user.orElseThrow(() -> new UserNotFoundException(uuid));
         return user.get();
+    }
+
+    public Optional<User> findOptionalUserByEmail(String email){
+        final Optional<User> user = userRepository.findByEmail(email);
+        return user;
     }
 
 }

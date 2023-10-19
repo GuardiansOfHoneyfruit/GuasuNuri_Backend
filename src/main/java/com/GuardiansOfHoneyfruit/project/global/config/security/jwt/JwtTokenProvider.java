@@ -40,7 +40,7 @@ public class JwtTokenProvider {
         return JWT.create()
                 .withSubject("Access")
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationTime))
-                .withClaim("userId", (String) oAuth2User.getAttributes().get("userId"))
+                .withClaim("userUuid", (String) oAuth2User.getAttributes().get("userUuid"))
                 .withClaim("role", (String) oAuth2User.getAttributes().get("role"))
                 .sign(Algorithm.HMAC512(secretKey));
     }
@@ -57,7 +57,7 @@ public class JwtTokenProvider {
         String refreshToken = JWT.create()
                 .withSubject("Access")
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpirationTime))
-                .withClaim("userId", (String) oAuth2User.getAttributes().get("userId"))
+                .withClaim("userId", (String) oAuth2User.getAttributes().get("userUuid"))
                 .withClaim("role", (String) oAuth2User.getAttributes().get("role"))
                 .sign(Algorithm.HMAC512(secretKey));
         try {
@@ -134,10 +134,9 @@ public class JwtTokenProvider {
     }
 
     public User getMemberOfToken(String accessToken) {
-        String userId = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getClaim("userId").asString();
-        User member = userFindDao.findByUserId(userId);
-        if (member == null) System.out.println("member 없음");
-        return member;
+        String userUuid = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getClaim("userUuid").asString();
+        User user = userFindDao.findByUserUuId(userUuid);
+        return user;
     }
 
 }

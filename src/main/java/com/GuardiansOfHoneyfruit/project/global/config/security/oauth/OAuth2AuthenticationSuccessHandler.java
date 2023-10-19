@@ -42,7 +42,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         if (request.getAttribute("exception") != null) {
             redirectUrl = redirectUrlCreator.createTargetUrl(request);
         } else {
-            redirectUrl = redirectUrlCreator.createTargetUrl(accessToken, (String) oAuth2User.getAttributes().get("userId"));
+            redirectUrl = redirectUrlCreator.createTargetUrl(accessToken, (String) oAuth2User.getAttributes().get("userUuid"));
         }
 
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);

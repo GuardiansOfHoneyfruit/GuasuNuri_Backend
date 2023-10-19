@@ -5,6 +5,7 @@ import com.GuardiansOfHoneyfruit.project.global.config.security.jwt.JwtAuthentic
 import com.GuardiansOfHoneyfruit.project.global.config.security.jwt.JwtAuthorizationFilter;
 import com.GuardiansOfHoneyfruit.project.global.config.security.jwt.JwtTokenProvider;
 import com.GuardiansOfHoneyfruit.project.global.config.security.oauth.OAuth2AuthenticationSuccessHandler;
+import com.GuardiansOfHoneyfruit.project.global.config.security.oauth.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
