@@ -1,13 +1,13 @@
 package com.GuardiansOfHoneyfruit.project.domain.region.domain;
 
 import com.GuardiansOfHoneyfruit.project.domain.observatory.domain.Observatory;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -1,19 +1,19 @@
 package com.GuardiansOfHoneyfruit.project.domain.observatory.domain;
 
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "observatory")
+@Table(name = "wt_observatory")
 public class Observatory {
 
     @Id
