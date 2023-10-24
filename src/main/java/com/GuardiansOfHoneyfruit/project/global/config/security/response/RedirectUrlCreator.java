@@ -1,10 +1,10 @@
 package com.GuardiansOfHoneyfruit.project.global.config.security.response;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component

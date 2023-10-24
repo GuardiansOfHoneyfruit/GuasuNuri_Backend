@@ -2,6 +2,8 @@ package com.GuardiansOfHoneyfruit.project.global.config.security.oauth;
 
 import com.GuardiansOfHoneyfruit.project.global.config.security.jwt.JwtTokenProvider;
 import com.GuardiansOfHoneyfruit.project.global.config.security.response.RedirectUrlCreator;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -9,8 +11,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2

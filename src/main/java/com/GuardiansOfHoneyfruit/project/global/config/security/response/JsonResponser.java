@@ -3,8 +3,8 @@ package com.GuardiansOfHoneyfruit.project.global.config.security.response;
 import com.GuardiansOfHoneyfruit.project.global.error.ErrorResponse;
 import com.GuardiansOfHoneyfruit.project.global.error.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JsonResponser {

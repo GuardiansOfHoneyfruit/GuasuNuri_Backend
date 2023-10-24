@@ -1,21 +1,20 @@
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.14'
+	id 'org.springframework.boot' version '3.1.5'
 	id 'io.spring.dependency-management' version '1.1.0'
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.GuardiansofHoneyfruit'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '11'
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
@@ -28,6 +27,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 
 	// Spring Batch
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
@@ -45,10 +46,14 @@ dependencies {
 	// JWT
 	implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
 
-	// jpa & QueryDsl
+	// jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	// Querydsl 추가
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	// MySQL & Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -57,6 +62,10 @@ dependencies {
 
 	// Rabbit MQ
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	// JAXB Dependencies
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -69,31 +78,8 @@ dependencies {
 	testImplementation 'org.mockito:mockito-core:4.8.0'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 	testImplementation 'org.springframework.batch:spring-batch-test'
-
-
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-//querydsl 추가 시작
-
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
-sourceSets {
-	main.java.srcDir querydslDir
-}
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
 }

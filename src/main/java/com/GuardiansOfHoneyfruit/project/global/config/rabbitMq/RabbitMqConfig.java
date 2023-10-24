@@ -151,7 +151,6 @@ public class RabbitMqConfig {
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         connectionFactory.setChannelCacheSize(25);
-        connectionFactory.setPublisherConfirms(true);
         connectionFactory.setPublisherReturns(true);
         return connectionFactory;
     }

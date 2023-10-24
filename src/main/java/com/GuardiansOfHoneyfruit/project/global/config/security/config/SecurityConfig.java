@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -48,7 +49,7 @@ public class SecurityConfig {
 
         // Cors 필터 추가, CSRF 비활성화
         httpSecurity.addFilterBefore(corsFilter, BasicAuthenticationFilter.class)
-                .csrf().disable();
+                        .csrf(AbstractHttpConfigurer::disable);
 
         // JWT Authorization 필터 추가
         httpSecurity
@@ -60,7 +61,7 @@ public class SecurityConfig {
         // 인가 설정
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.OPTIONS).permitAll() // OPTIONS 메서드는 모두 허용
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll() // OPTIONS 메서드는 모두 허용
 //                        .antMatchers("/api/members/**").authenticated()
                         .anyRequest().permitAll()
                 );
@@ -68,10 +69,10 @@ public class SecurityConfig {
         // OAuth2 로그인 설정
         httpSecurity
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .userInfoEndpoint()
-                        .userService(oAuth2UserService)
-                        .and()
+                                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                        .userService(oAuth2UserService))
                         .successHandler(oAuth2AuthenticationSuccessHandler)
+
 //                        .failureHandler(oAuth2AuthenticationFailureHandler)
                 );
 
