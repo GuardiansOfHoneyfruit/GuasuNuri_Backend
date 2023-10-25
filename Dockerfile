@@ -11,4 +11,4 @@ ENV APP_HOME=/app
 WORKDIR $APP_HOME
 COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
 EXPOSE 8080
-CMD ["java", "-jar", "$ARTIFACT_NAME"]
+CMD ["java", "-jar", "${ARTIFACT_NAME}"]
