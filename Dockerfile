@@ -1,11 +1,11 @@
-FROM adoptopenjdk:17-jdk-hotspot AS TEMP_BUILD_IMAGE
+FROM eclipse-temurin:17-jdk AS TEMP_BUILD_IMAGE
 ENV APP_HOME=/app
 WORKDIR $APP_HOME
 COPY . ./
 RUN chmod +x gradlew
 RUN ./gradlew build -x test --stacktrace
 
-FROM adoptopenjdk:17-jdk-hotspot
+FROM eclipse-temurin:17-jdk
 ENV ARTIFACT_NAME=project-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/app
 WORKDIR $APP_HOME

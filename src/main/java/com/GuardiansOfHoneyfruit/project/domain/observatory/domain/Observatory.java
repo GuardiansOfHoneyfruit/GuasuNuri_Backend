@@ -1,5 +1,6 @@
 package com.GuardiansOfHoneyfruit.project.domain.observatory.domain;
 
+import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -26,10 +27,18 @@ public class Observatory {
     @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Region> regionList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<Asos> asos = new ArrayList<>();
+
     @Builder
     public Observatory(Long observatoryId, String observatoryName){
         this.observatoryId = observatoryId;
         this.observatoryName = observatoryName;
     }
+
+//    private Asos buildAsos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature){
+//        return Asos.builder()
+//                .
+//    }
 
 }

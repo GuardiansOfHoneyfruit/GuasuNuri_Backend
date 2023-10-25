@@ -82,14 +82,10 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
                     "&BJD_Code=" + region.getRegionId();
 
             URI uri = new URI(apiUrl);
-            System.out.println(uri);
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
-
             ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-
             String xmlResponse = response.getBody();
-            System.out.println(xmlResponse);
             // 2. XML 응답을 DTO로 변환
             List<SoilResponseDto> soilResponseDtoList = new ArrayList<>();
             try {
@@ -99,10 +95,8 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
                 XMLResponseDto responseDto = (XMLResponseDto) unmarshaller.unmarshal(reader);
                 soilResponseDtoList = responseDto.getBody().getItems();
             } catch (JAXBException e) {
-                log.error("Error parsing XML response: " + e.getMessage());
                 e.printStackTrace();
             }
-            log.info(soilResponseDtoList.size() + "개");
             if (soilResponseDtoList.isEmpty()) {
                 return Collections.emptyList();
             }
@@ -124,8 +118,6 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
             });
         };
     }
-
-
 
     private ListItemReader<Region> regionReader(){
         return new ListItemReader<>(this.regionFindDao.findAll());
