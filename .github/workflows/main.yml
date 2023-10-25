@@ -23,6 +23,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: feat/cicd
+
+      - name: Make application.yml
+        run: |
+          mkdir -p ./src/main/resources
+          touch ./src/main/resources/application.yml 
+          echo "${{ secrets.PROPERTIES_DEV }}" > ./src/main/resources/application.yml
+        shell: bash
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
