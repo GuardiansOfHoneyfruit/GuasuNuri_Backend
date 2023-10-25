@@ -1,6 +1,7 @@
 package com.GuardiansOfHoneyfruit.project.domain.observatory.domain;
 
 import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
+import com.GuardiansOfHoneyfruit.project.domain.asos.dto.AsosEntityDto;
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,9 +37,25 @@ public class Observatory {
         this.observatoryName = observatoryName;
     }
 
-//    private Asos buildAsos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature){
-//        return Asos.builder()
-//                .
-//    }
+    public void addAsos(AsosEntityDto dto) {
+        this.asos.add(buildAsos(dto));
+    }
 
+    private Asos buildAsos(AsosEntityDto dto){
+        return Asos.builder()
+                .observatory(this)
+                .avgTemperature(dto.getAvgTemperature())
+                .minTemperature(dto.getMinTemperature())
+                .time(dto.getTime())
+                .avgHumidity(dto.getAvgHumidity())
+                .maxTemperature(dto.getMaxTemperature())
+                .avgGroundTemperature(dto.getAvgGroundTemperature())
+                .avgTotalCloudAmount(dto.getAvgTotalCloudAmount())
+                .rainDay(dto.getRainDay())
+                .maxWindSpeed(dto.getMaxWindSpeed())
+                .avgWindSpeed(dto.getAvgWindSpeed())
+                .windDirectionMax(dto.getWindDirectionMax())
+                .solarRadiation(dto.getSolarRadiation())
+                .build();
+    }
 }
