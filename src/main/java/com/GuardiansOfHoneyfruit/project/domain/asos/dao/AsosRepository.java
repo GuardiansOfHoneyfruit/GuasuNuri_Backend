@@ -1,7 +1,7 @@
 package com.GuardiansOfHoneyfruit.project.domain.asos.dao;
 
-import com.GuardiansOfHoneyfruit.project.domain.observatory.domain.Observatory;
+import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AsosRepository extends JpaRepository<Observatory, Long> {
+public interface AsosRepository extends JpaRepository<Asos, Long> {
 }
