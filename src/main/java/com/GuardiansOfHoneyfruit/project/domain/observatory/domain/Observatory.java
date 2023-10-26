@@ -24,7 +24,7 @@ public class Observatory {
     @Column(name = "observatory_nm", nullable = false, updatable = false, unique = true)
     private String observatoryName;
 
-    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Asos> asos = new ArrayList<>();
 
     @Builder

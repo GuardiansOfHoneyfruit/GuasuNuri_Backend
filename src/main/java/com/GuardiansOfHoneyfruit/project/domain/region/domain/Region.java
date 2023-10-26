@@ -22,7 +22,7 @@ public class Region {
     @Column(name = "REGION_NM", nullable = false)
     private String regionName;
 
-    @OneToMany(mappedBy = "REGION", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "region", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Pnu> pnuList;
 
     @ManyToOne

@@ -46,7 +46,7 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
     private final String API_URL = "http://apis.data.go.kr/1390802/SoilEnviron/SoilExam";
 
     @Bean
-    public Job job(final JobRepository jobRepository, final Step soilStep) {
+    public Job soilJob(final JobRepository jobRepository, final Step soilStep) {
         return new JobBuilder("job", jobRepository)
                 .start(soilStep)
                 .build();

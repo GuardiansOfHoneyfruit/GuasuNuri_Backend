@@ -27,7 +27,7 @@ public class Pnu {
     @Column(name = "PNU_ADDRESS", nullable = false)
     private String pnuAddress;
 
-    @OneToMany(mappedBy = "PNU", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pnu", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Soil> soilData = new ArrayList<>();
 
     @ManyToOne
