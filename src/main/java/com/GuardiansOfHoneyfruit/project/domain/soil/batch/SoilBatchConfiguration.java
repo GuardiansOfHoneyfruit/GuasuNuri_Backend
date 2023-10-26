@@ -2,8 +2,6 @@ package com.GuardiansOfHoneyfruit.project.domain.soil.batch;
 
 import com.GuardiansOfHoneyfruit.project.domain.region.dao.PnuFindDao;
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Pnu;
-import com.GuardiansOfHoneyfruit.project.domain.soil.dao.SoilRepository;
-import com.GuardiansOfHoneyfruit.project.domain.soil.domain.Soil;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dto.SoilResponseDto;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dto.XMLResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +36,7 @@ import java.util.List;
 public class SoilBatchConfiguration extends DefaultBatchConfiguration {
 
     private final PnuFindDao pnuFindDao;
-    private final SoilRepository soilRepository;
-    private int chunkSize = 1000;
+    private final int chunkSize = 1000;
     @Value("${api.keys.data-kr.encoding}")
     private String serviceKey;
 
