@@ -1,5 +1,6 @@
 package com.GuardiansOfHoneyfruit.project.domain.soil.dto;
 
+import com.GuardiansOfHoneyfruit.project.domain.region.domain.Pnu;
 import com.GuardiansOfHoneyfruit.project.domain.soil.domain.Soil;
 import lombok.Getter;
 
@@ -7,9 +8,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 @Getter
 public class SoilResponseDto {
-
-    @XmlElement(name = "BJD_Code")
-    private String bjdCode;
 
     @XmlElement(name = "Any_Year")
     private Integer anyYear;
@@ -51,9 +49,8 @@ public class SoilResponseDto {
 
     }
 
-    public Soil toEntity() {
+    public Soil toEntity(Pnu pnu) {
         return Soil.builder()
-                .bjdCode(this.bjdCode)
                 .om(this.om)
                 .pnuNm(this.pnuNm)
                 .acid(parseToDouble(acidStr))
@@ -66,6 +63,7 @@ public class SoilResponseDto {
                 .vldPha(this.vldPha)
                 .anyYear(this.anyYear)
                 .posifertMg(parseToDouble(posifertMgStr))
+                .pnu(pnu)
                 .build();
     }
 

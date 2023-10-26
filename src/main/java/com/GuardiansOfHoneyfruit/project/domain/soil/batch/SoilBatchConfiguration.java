@@ -1,7 +1,7 @@
 package com.GuardiansOfHoneyfruit.project.domain.soil.batch;
 
-import com.GuardiansOfHoneyfruit.project.domain.region.dao.RegionFindDao;
-import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
+import com.GuardiansOfHoneyfruit.project.domain.region.dao.PnuFindDao;
+import com.GuardiansOfHoneyfruit.project.domain.region.domain.Pnu;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dao.SoilRepository;
 import com.GuardiansOfHoneyfruit.project.domain.soil.domain.Soil;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dto.SoilResponseDto;
@@ -30,16 +30,14 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class SoilBatchConfiguration extends DefaultBatchConfiguration {
 
-    private final RegionFindDao regionFindDao;
+    private final PnuFindDao pnuFindDao;
     private final SoilRepository soilRepository;
     private int chunkSize = 1000;
     @Value("${api.keys.data-kr.encoding}")
@@ -48,25 +46,25 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
     private final String API_URL = "http://apis.data.go.kr/1390802/SoilEnviron/SoilExam";
 
     @Bean
-    public Job job(final JobRepository jobRepository, final Step step) {
+    public Job job(final JobRepository jobRepository, final Step soilStep) {
         return new JobBuilder("job", jobRepository)
-                .start(step)
+                .start(soilStep)
                 .build();
     }
 
-    @Bean
+    @Bean(name = "soilStep")
     public Step soilStep(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
         return new StepBuilder("step", jobRepository)
-                .<Region, List<Soil>>chunk(this.chunkSize, transactionManager)
-                .reader(this.regionReader())
+                .<Pnu, Pnu>chunk(this.chunkSize, transactionManager)  // 변경됨
+                .reader(this.pnuReader())
                 .processor(this.soilProcessor())
-                .writer(this.soilWriter(soilRepository))
+                .writer(this.pnuWriter())  // 변경됨
                 .build();
     }
 
     @Bean
-    public ItemProcessor<Region, List<Soil>> soilProcessor() {
-        return region -> {
+    public ItemProcessor<Pnu, Pnu> soilProcessor() {
+        return pnu -> {
             // HttpHeaders 설정
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -79,7 +77,7 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
                     "serviceKey=" + serviceKey +
                     "&Page_Size=200" +
                     "&Page_No=1" +
-                    "&BJD_Code=" + region.getRegionId();
+                    "&BJD_Code=" + pnu.getPnuCode();
 
             URI uri = new URI(apiUrl);
 
@@ -98,29 +96,25 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
                 e.printStackTrace();
             }
             if (soilResponseDtoList.isEmpty()) {
-                return Collections.emptyList();
+                return null;
             }
 
-            return soilResponseDtoList.stream().map(SoilResponseDto::toEntity).collect(Collectors.toList());
+            for (SoilResponseDto dto : soilResponseDtoList) {
+                pnu.addSoil(dto);
+            }
+            return pnu;
         };
     }
-
-
 
     @Bean
-    public ItemWriter<List<Soil>> soilWriter(SoilRepository soilRepository) {
-        return listOfSoils -> {
-            log.info(listOfSoils.toString());
-            listOfSoils.forEach(soils -> {
-                if (!soils.isEmpty()) {
-                    soilRepository.saveAll(soils);
-                }
-            });
+    public ItemWriter<Pnu> pnuWriter() {
+        return pnus -> {
+
         };
     }
 
-    private ListItemReader<Region> regionReader(){
-        return new ListItemReader<>(this.regionFindDao.findAll());
+    private ListItemReader<Pnu> pnuReader(){
+        return new ListItemReader<>(pnuFindDao.findAll());
     }
 
 }
