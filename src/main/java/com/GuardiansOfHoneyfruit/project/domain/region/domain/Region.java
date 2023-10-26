@@ -2,43 +2,50 @@ package com.GuardiansOfHoneyfruit.project.domain.region.domain;
 
 import com.GuardiansOfHoneyfruit.project.domain.observatory.domain.Observatory;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "region")
 @Entity
+@Table(name = "REGION")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Region {
 
     @Id
-    @Column(name = "pnu_cd", nullable = false)
-    @Size(min = 10, max = 10, message = "지역 pnuId는 반드시 10자여야 합니다.")
-    private String regionId;
+    @Column(name = "REGION_CD")
+    private String regionCode;
 
-    @ManyToOne
-    @JoinColumn(name = "observatory", updatable = false)
-    private Observatory observatory;
-
-    @Column(name = "region_nm", nullable = false)
+    @Column(name = "REGION_NM", nullable = false)
     private String regionName;
 
+    @OneToMany(mappedBy = "region", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Pnu> pnuList;
+
+    @ManyToOne
+    @JoinColumn(name = "observatory_cd", nullable = false)
+    private Observatory observatory;
+
     @Builder
-    public Region(String regionId, String regionName) {
-        this.regionId = regionId;
+    public Region(Observatory observatory, String regionCode, String regionName){
+        this.observatory = observatory;
         this.regionName = regionName;
+        this.regionCode = regionCode;
     }
 
-    public String getFirstFive() {
-        return regionId.substring(0, 5);
+    public void addPnu(String pnuCode, String pnuAdress){
+        this.pnuList.add(buildPnu(pnuCode, pnuAdress));
     }
 
-    public String getLastFive() {
-        return regionId.substring(5);
+    private Pnu buildPnu(String pnuCode, String pnuAddress){
+        return Pnu.builder()
+                .pnuAddress(pnuAddress)
+                .region(this)
+                .pnuCode(pnuCode)
+                .build();
     }
 
 }

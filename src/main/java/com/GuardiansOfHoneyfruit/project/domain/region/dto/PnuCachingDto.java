@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegionCachingDto {
+public class PnuCachingDto {
 
     private String fullPnuCd;
     private String frontPnuCd;
 
-    public RegionCachingDto(String pnuCd){
+    public PnuCachingDto(String pnuCd){
         this.fullPnuCd = pnuCd;
         this.frontPnuCd = pnuCd;
     }
