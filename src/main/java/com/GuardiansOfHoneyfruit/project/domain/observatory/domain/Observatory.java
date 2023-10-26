@@ -37,7 +37,7 @@ public class Observatory {
         this.asos.add(buildAsos(dto));
     }
 
-    private Asos buildAsos(AsosEntityDto dto){
+    public Asos buildAsos(AsosEntityDto dto){
         return Asos.builder()
                 .observatory(this)
                 .avgTemperature(dto.getAvgTemperature())
