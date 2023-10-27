@@ -72,7 +72,6 @@ public class WeatherBatchConfig {
 
             String formattedUrl = String.format(API_URL_NOW, observatory.getObservatoryId(), apiKey);
             String jsonResponse = restTemplate.exchange(formattedUrl, HttpMethod.GET, entity, String.class).getBody();
-
             List<AsosEntityDto> asosData = asosParsingService.parse(jsonResponse, LocalDate.now().getYear());
 
             for (AsosEntityDto dto : asosData) {
