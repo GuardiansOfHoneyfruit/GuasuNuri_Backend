@@ -3,6 +3,7 @@ package com.GuardiansOfHoneyfruit.project.global.error;
 import com.GuardiansOfHoneyfruit.project.global.error.exception.BusinessException;
 import com.GuardiansOfHoneyfruit.project.global.error.exception.ErrorCode;
 
+import com.GuardiansOfHoneyfruit.project.global.error.exception.InvalidArgumentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -123,5 +124,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(InvalidArgumentException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidArgumentException(InvalidArgumentException e) {
+        log.error("handleInvalidArgumentException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE); // ErrorCode.INVALID_ARGUMENT는 적절한 ErrorCode를 정의한 후 사용하세요.
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
 }
