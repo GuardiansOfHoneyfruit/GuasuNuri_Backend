@@ -5,6 +5,7 @@
     import com.GuardiansOfHoneyfruit.project.domain.asos.dto.AsosEntityDto;
     import com.GuardiansOfHoneyfruit.project.domain.asos.service.AsosParsingService;
     import com.GuardiansOfHoneyfruit.project.domain.observatory.dao.ObservatoryFindDao;
+    import com.GuardiansOfHoneyfruit.project.domain.observatory.dao.ObservatoryRepository;
     import com.GuardiansOfHoneyfruit.project.domain.observatory.domain.Observatory;
     import jakarta.persistence.EntityManagerFactory;
     import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@
         private final EntityManagerFactory entityManagerFactory;
         private final RestTemplate restTemplate;
         private final AsosParsingService asosParsingService;
-
+        private final AsosRepository asosRepository;
         private final int chunkSize = 100;
 
         @Value("${api.keys.weather.key}")
@@ -97,6 +98,7 @@
                 List<Asos> allAsoses = new ArrayList<>();
                 for (List<Asos> asosList : list) {
                     allAsoses.addAll(asosList);
+                    asosRepository.saveAll(allAsoses);
                 }
             };
         }
