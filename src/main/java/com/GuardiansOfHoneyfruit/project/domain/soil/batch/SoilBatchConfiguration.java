@@ -44,14 +44,14 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
 
     @Bean
     public Job soilJob(final JobRepository jobRepository, final Step soilStep) {
-        return new JobBuilder("job", jobRepository)
+        return new JobBuilder("soilJob", jobRepository)
                 .start(soilStep)
                 .build();
     }
 
     @Bean(name = "soilStep")
     public Step soilStep(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
-        return new StepBuilder("step", jobRepository)
+        return new StepBuilder("soilStep", jobRepository)
                 .<Pnu, Pnu>chunk(this.chunkSize, transactionManager)  // 변경됨
                 .reader(this.pnuReader())
                 .processor(this.soilProcessor())
