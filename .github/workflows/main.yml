@@ -15,18 +15,25 @@ on:
       - closed
     branches:
       - 'dev'
+      - 'main'
 
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true
     name: Push Docker image to Docker Hub
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
+      - name: check the variable
+        run: |
+          echo "github.ref_name $ref_name"
+        env:
+          ref_name: ${{github.ref_name}}
+
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: ${{github.ref_name}}
 
       - name: Make application.yml
         run: |
@@ -44,20 +51,40 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Build and push Docker image
+      - name: Build and push Docker image -- main
         uses: docker/build-push-action@v5
+        if: ${{ github.ref_name == 'main' }}
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app-main
+      
+      - name: Build and push Docker image -- dev
+        uses: docker/build-push-action@v5
+        if: ${{ github.ref_name == 'dev' }}
         with:
           context: ./
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app
 
-      - name: executing remote ssh commands using ssh key
+      - name: executing remote ssh commands using ssh key -- main
         uses: appleboy/ssh-action@v1.0.0
+        if: ${{ github.ref_name == 'main' }}
+        with:
+          host: ${{ secrets.MAIN_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            sh ../deployback.sh
+
+      - name: executing remote ssh commands using ssh key -- dev
+        uses: appleboy/ssh-action@v1.0.0
+        if: ${{ github.ref_name == 'dev' }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            whoami
             sh ../deployback.sh
