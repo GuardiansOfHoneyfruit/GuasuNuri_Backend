@@ -2,7 +2,6 @@ package com.GuardiansOfHoneyfruit.project.domain.observatory.domain;
 
 import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
 import com.GuardiansOfHoneyfruit.project.domain.asos.dto.AsosEntityDto;
-import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,10 +24,7 @@ public class Observatory {
     @Column(name = "observatory_nm", nullable = false, updatable = false, unique = true)
     private String observatoryName;
 
-    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST)
-    private List<Region> regionList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "observatory", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Asos> asos = new ArrayList<>();
 
     @Builder
@@ -41,7 +37,7 @@ public class Observatory {
         this.asos.add(buildAsos(dto));
     }
 
-    private Asos buildAsos(AsosEntityDto dto){
+    public Asos buildAsos(AsosEntityDto dto){
         return Asos.builder()
                 .observatory(this)
                 .avgTemperature(dto.getAvgTemperature())

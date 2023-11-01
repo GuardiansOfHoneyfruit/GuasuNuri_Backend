@@ -29,7 +29,6 @@ public class RabbitMqConfig {
     @Value("${spring.rabbitmq.password}")
     private String password;
 
-
     /**
      * 알림 관련 큐 정의
      */
@@ -150,8 +149,6 @@ public class RabbitMqConfig {
         connectionFactory.setPort(port);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
-        connectionFactory.setChannelCacheSize(25);
-        connectionFactory.setPublisherReturns(true);
         return connectionFactory;
     }
 
@@ -184,5 +181,6 @@ public class RabbitMqConfig {
                 .build());
         return factory;
     }
+
 }
 
