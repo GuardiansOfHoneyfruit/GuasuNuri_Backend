@@ -19,7 +19,6 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        System.out.println("인증안됨");
 
         Exception e = (Exception) request.getAttribute("exception");
         if (e instanceof JWTDecodeException) {

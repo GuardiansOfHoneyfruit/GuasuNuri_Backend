@@ -12,6 +12,7 @@ import java.util.Optional;
 public class UserFindDao {
 
     private final UserRepository userRepository;
+    private final UserCustomRepository userCustomRepository;
 
     public User findByUserUuId(String uuid){
         final Optional<User> user = userRepository.findByUserUuid(uuid);
@@ -24,4 +25,7 @@ public class UserFindDao {
         return user;
     }
 
+    public boolean isUserRegionNull(String userUuid){
+        return userCustomRepository.isUserRegionNull(userUuid);
+    }
 }

@@ -1,5 +1,6 @@
 package com.GuardiansOfHoneyfruit.project.domain.user.domain;
 
+import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,11 +27,19 @@ public class User {
     @Column(name = "ROLE", nullable = false)
     private String role;
 
+    @ManyToOne
+    @JoinColumn(name = "REGION_CD", nullable = true, updatable = true)
+    private Region region;
+
     @Builder
     public User(String userUuid, String email, String role) {
         this.userUuid = userUuid;
         this.email = email;
         this.role = role;
+    }
+
+    public void updateRegion(Region region){
+        this.region = region;
     }
 
 }

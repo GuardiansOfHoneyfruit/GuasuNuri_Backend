@@ -170,16 +170,40 @@ public class RabbitMqConfig {
                 .noargs();
     }
 
+    /**
+     * 1. Exchange 구성합니다.
+     * "hello.exchange" 라는 이름으로 Direct Exchange 형태로 구성하였습니다.
+     *
+     * @return DirectExchange
+     */
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        factory.setAdviceChain(RetryInterceptorBuilder.stateless()
-                .maxAttempts(3) // 재시도 횟수 설정
-                .backOffOptions(1000, 2.0, 10000) // 초기 지연, 지수, 최대 지연 시간
-                .recoverer(new RejectAndDontRequeueRecoverer()) // 마지막 재시도 후 메시지를 requeue하지 않음 (DLQ로 이동)
-                .build());
-        return factory;
+    DirectExchange directExchange() {
+        return new DirectExchange("hello.exchange");
+    }
+
+    /**
+     * 2. 큐를 구성합니다.
+     * "hello.queue"라는 이름으로 큐를 구성하였습니다.
+     *
+     * @return Queue
+     */
+    @Bean
+    Queue queue() {
+        return new Queue("hello.queue", false);
+    }
+
+
+    /**
+     * 3. 큐와 DirectExchange를 바인딩합니다.
+     * "hello.key"라는 이름으로 바인딩을 구성하였습니다.
+     *
+     * @param directExchange
+     * @param queue
+     * @return Binding
+     */
+    @Bean
+    Binding binding(DirectExchange directExchange, Queue queue) {
+        return BindingBuilder.bind(queue).to(directExchange).with("hello.key");
     }
 
 }
