@@ -23,7 +23,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final RedirectUrlCreator redirectUrlCreator;
     private final UserFindDao userFindDao;
     private static final String USER_UUID_ATTRIBUTE_NAME = "userUuid";
-
+    private static final String USER_REGION_ATTRIBUTE_NAME = "region";
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
