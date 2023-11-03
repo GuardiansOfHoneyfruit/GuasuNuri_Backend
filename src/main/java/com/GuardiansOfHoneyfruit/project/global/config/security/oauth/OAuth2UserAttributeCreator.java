@@ -6,12 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OAuth2UserAttributeCreator {
+
+    private static final String USER_UUID_ATTRIBUTE_NAME = "userUuid";
+    private static final String USER_ID_ATTRIBUTE_NAME = "userId";
+    private static final String USER_EMAIL_ATTRIBUTE_NAME = "email";
+    private static final String USER_ROLE_ATTRIBUTE_NAME = "ROLE";
+
     public static Map<String, Object> createAttribute(User user) {
         Map<String, Object> attribute = new HashMap<>();
-        attribute.put("userId", user.getUserId());
-        attribute.put("userUuId", user.getUserUuid());
-        attribute.put("email", user.getEmail());
-        attribute.put("role", user.getRole());
+        attribute.put(USER_ID_ATTRIBUTE_NAME, user.getUserId());
+        attribute.put(USER_UUID_ATTRIBUTE_NAME, user.getUserUuid());
+        attribute.put(USER_EMAIL_ATTRIBUTE_NAME, user.getEmail());
+        attribute.put(USER_ROLE_ATTRIBUTE_NAME, user.getRole());
         return attribute;
     }
 }

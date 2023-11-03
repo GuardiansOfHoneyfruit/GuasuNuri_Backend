@@ -33,7 +33,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         } else {
             user = optionalUser.get();
         }
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole())), OAuth2UserAttributeCreator.createAttribute(user), "userId");
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole())), OAuth2UserAttributeCreator.createAttribute(user), "userUuid");
     }
 
     private String getEmail(OAuth2UserRequest userRequest){
