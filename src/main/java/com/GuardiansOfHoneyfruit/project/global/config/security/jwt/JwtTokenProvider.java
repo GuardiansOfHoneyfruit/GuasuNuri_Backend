@@ -42,6 +42,7 @@ public class JwtTokenProvider {
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationTime))
                 .withClaim("userUuid", (String) oAuth2User.getAttributes().get("userUuid"))
                 .withClaim("role", (String) oAuth2User.getAttributes().get("role"))
+                .withClaim("region", userFindDao.isUserRegionNull(oAuth2User.getAttributes().get("userUuid").toString()))
                 .sign(Algorithm.HMAC512(secretKey));
     }
     public String createAccessToken(User user){
