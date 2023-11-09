@@ -1,9 +1,11 @@
 package com.GuardiansOfHoneyfruit.project.domain.soil.batch;
 
+import com.GuardiansOfHoneyfruit.project.domain.observatory.domain.Observatory;
 import com.GuardiansOfHoneyfruit.project.domain.region.dao.PnuFindDao;
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Pnu;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dto.SoilResponseDto;
 import com.GuardiansOfHoneyfruit.project.domain.soil.dto.XMLResponseDto;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -14,6 +16,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SoilBatchConfiguration extends DefaultBatchConfiguration {
 
-    private final PnuFindDao pnuFindDao;
+    private final EntityManagerFactory entityManagerFactory;
     private final int chunkSize = 1000;
     @Value("${api.keys.data-kr.encoding}")
     private String serviceKey;
@@ -110,8 +113,13 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
         };
     }
 
-    private ListItemReader<Pnu> pnuReader(){
-        return new ListItemReader<>(pnuFindDao.findAll());
+    @Bean
+    public JpaPagingItemReader<Pnu> pnuReader() {
+        JpaPagingItemReader<Pnu> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setPageSize(chunkSize);
+        reader.setQueryString("SELECT p FROM Pnu p");
+        return reader;
     }
 
 }
