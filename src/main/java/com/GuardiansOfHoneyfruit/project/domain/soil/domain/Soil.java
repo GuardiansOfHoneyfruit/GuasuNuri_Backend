@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "SOIL")
+@Table(name = "SOIL", indexes = @Index(name = "idx__soil", columnList = "acid"))
 public class Soil {
 
     @Id
