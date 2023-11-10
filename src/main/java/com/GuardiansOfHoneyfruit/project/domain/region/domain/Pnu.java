@@ -15,7 +15,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "PNU")
+@Table(name = "PNU", indexes = @Index(name = "idx__region", columnList = "region_cd"))
 @Entity
 public class Pnu {
 
