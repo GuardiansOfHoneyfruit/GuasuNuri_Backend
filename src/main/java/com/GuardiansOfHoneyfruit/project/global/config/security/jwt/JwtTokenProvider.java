@@ -10,6 +10,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -136,6 +138,7 @@ public class JwtTokenProvider {
 
     public User getMemberOfToken(String accessToken) {
         String userUuid = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getClaim("userUuid").asString();
+        log.info("JWT에서 로드" + userUuid);
         User user = userFindDao.findByUserUuId(userUuid);
         return user;
     }

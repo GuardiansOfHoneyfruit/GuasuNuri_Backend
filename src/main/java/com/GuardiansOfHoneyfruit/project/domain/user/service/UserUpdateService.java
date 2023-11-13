@@ -9,6 +9,7 @@ import com.GuardiansOfHoneyfruit.project.domain.user.dto.UserRegionCreateRespons
 import com.GuardiansOfHoneyfruit.project.domain.user.dto.UserRegionUpdateRequest;
 import com.GuardiansOfHoneyfruit.project.global.common.dto.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +22,16 @@ public class UserUpdateService {
     private final RegionFindDao regionFindDao;
     private static final String USER_UUID_ATTRIBUTE = "userUuid";
     @Transactional
-    public Response createUserRegion(UserRegionUpdateRequest request, OAuth2User oAuth2User){
-        User user = userFindDao.findByUserUuId(oAuth2User.getAttribute(USER_UUID_ATTRIBUTE));
+    public Response createUserRegion(final UserRegionUpdateRequest request, final String userUuid){
+        User user = userFindDao.findByUserUuId(userUuid);
         Region regionReference = regionFindDao.findRegionReference(request.getRegionCode());
         user.updateRegion(regionReference);
         return Response.of(UserCode.USER_REGION_SETTING_SUCCESS, UserRegionCreateResponse.fromUserUuid(user.getUserUuid()));
     }
 
     @Transactional
-    public Response updateUserRegion(UserRegionUpdateRequest request, OAuth2User oAuth2User){
-        User user = userFindDao.findByUserUuId(oAuth2User.getAttribute(USER_UUID_ATTRIBUTE));
+    public Response updateUserRegion(final UserRegionUpdateRequest request, final String userUuid){
+        User user = userFindDao.findByUserUuId(userUuid);
         Region regionReference = regionFindDao.findRegionReference(request.getRegionCode());
         user.updateRegion(regionReference);
         return Response.of(UserCode.USER_REGION_UPDATE_SUCCESS);

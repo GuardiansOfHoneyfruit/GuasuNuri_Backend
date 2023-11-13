@@ -4,6 +4,7 @@ import com.GuardiansOfHoneyfruit.project.domain.user.dao.UserFindDao;
 import com.GuardiansOfHoneyfruit.project.domain.user.domain.User;
 import com.GuardiansOfHoneyfruit.project.domain.user.service.UserCreateService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OAuth2UserService extends DefaultOAuth2UserService {
@@ -32,6 +34,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
             user = userCreateService.createUser(userEmail);
         } else {
             user = optionalUser.get();
+            log.info(user.getUserUuid());
         }
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole())), OAuth2UserAttributeCreator.createAttribute(user), "userUuid");
     }
