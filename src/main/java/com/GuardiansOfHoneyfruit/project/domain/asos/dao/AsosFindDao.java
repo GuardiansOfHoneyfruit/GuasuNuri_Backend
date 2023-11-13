@@ -11,7 +11,7 @@ public class AsosFindDao {
     private final AsosRepository asosRepository;
 
     public AsosEntityDto findLatestAsosObservatoryId(Long observatoryId){
-        return AsosEntityDto.from(asosRepository.findTopByObservatoryOrderByCreatedAtDesc(observatoryId));
+        return AsosEntityDto.from(asosRepository.findTopByObservatoryIdOrderByCreatedAtDesc(observatoryId));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.GuardiansOfHoneyfruit.project.domain.region.controller;
 
 import com.GuardiansOfHoneyfruit.project.domain.region.dao.RegionFindDao;
-import com.GuardiansOfHoneyfruit.project.domain.region.service.DegreeOfRiskService;
+import com.GuardiansOfHoneyfruit.project.domain.region.service.RegionDangerService;
 import com.GuardiansOfHoneyfruit.project.global.common.dto.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegionController {
 
     private final RegionFindDao regionFindDao;
-    private final DegreeOfRiskService degreeOfRiskService;
+    private final RegionDangerService regionDangerService;
 
     @GetMapping
     public ResponseEntity<Response> getAllRegionsName(){
@@ -27,13 +27,13 @@ public class RegionController {
 
     @GetMapping("/dangers")
     public ResponseEntity<Response> getAllDangerLevel(){
-        Response response = degreeOfRiskService.getAllDangerLevel();
+        Response response = regionDangerService.getAllDangerLevel();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{regionCode}/dangers")
     public ResponseEntity<Response> getDegreeOfRiskByRegionCode(@PathVariable @Valid final String regionCode){
-        Response response = degreeOfRiskService.getDangerLevelAtSingleRegion(regionCode);
+        Response response = regionDangerService.getDangerLevelAtSingleRegion(regionCode);
         return ResponseEntity.ok(response);
     }
 }

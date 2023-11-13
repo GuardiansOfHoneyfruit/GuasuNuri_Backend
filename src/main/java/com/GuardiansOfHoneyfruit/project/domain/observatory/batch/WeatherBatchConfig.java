@@ -57,7 +57,7 @@ public class WeatherBatchConfig {
 
     private final String API_URL_NOW = "https://apihub.kma.go.kr/api/typ01/url/kma_sfcdd.php?stn=%s&authKey=%s";
     @Bean
-    public Job weatherJob(final JobRepository jobRepository, final Step weatherStep) {
+    public Job weatherJob(final JobRepository jobRepository, final Step weatherStep, final Step weatherConvertStep) {
         return new JobBuilder("weatherJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(weatherStep)
@@ -72,20 +72,21 @@ public class WeatherBatchConfig {
                 .reader(observatoryReader())
                 .processor(asosProcessor())
                 .writer(asosListWriter())
-                .listener(new WeatherStepListener())  // 여기에 리스너를 추가합니다.
+                .listener(new WeatherStepListener())
                 .build();
     }
 
     @Bean(name = "weatherConvertStep")
     public Step weatherConvertStep(final JobRepository jobRepository,
                                    final PlatformTransactionManager transactionManager,
-                                   final ItemProcessor<Observatory, RiskConversionRequest> weatherDataProcessor,
+                                   final ItemProcessor<Region, RiskConversionRequest> weatherDataProcessor,
                                    final ItemWriter<RiskConversionRequest> weatherDataWriter) {
         return new StepBuilder("weatherConvertStep", jobRepository)
                 .<Region, RiskConversionRequest>chunk(this.convertChunkSize, transactionManager)
-                .reader(regionReader()) // 이미 정의된 JpaPagingItemReader 사용
+                .reader(regionReader())
                 .processor(weatherDataProcessor)
                 .writer(weatherDataWriter)
+                .listener(new WeatherStepListener())
                 .build();
     }
 
@@ -143,7 +144,7 @@ public class WeatherBatchConfig {
     public JpaPagingItemReader<Region> regionReader() {
         JpaPagingItemReader<Region> reader = new JpaPagingItemReader<>();
         reader.setEntityManagerFactory(entityManagerFactory);
-        reader.setPageSize(chunkSize);
+        reader.setPageSize(convertChunkSize);
         reader.setQueryString("SELECT r FROM Region r");
         return reader;
     }
@@ -152,6 +153,7 @@ public class WeatherBatchConfig {
     public ItemWriter<RiskConversionRequest> weatherDataWriter() {
         return requests -> {
             for (RiskConversionRequest request : requests) {
+                log.info(request + "번 지역 변환 요청");
                 regionMessageService.sendDangerOfRegionRequest(request);
             }
         };

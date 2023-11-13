@@ -47,5 +47,9 @@ public class RiskConversionRequest {
         );
     }
 
+    @Override
+    public String toString(){
+        return this.regionCode;
+    }
 
 }

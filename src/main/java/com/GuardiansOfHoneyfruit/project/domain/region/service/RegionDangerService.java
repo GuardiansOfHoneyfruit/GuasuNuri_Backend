@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DegreeOfRiskService {
+public class RegionDangerService {
 
     private final RedisTemplate<String, DangerResponse> redisTemplate;
     private final RegionFindDao regionFindDao;
 
-    public void updateRiskOfDegreeToRedis(final RiskConversionResponse riskConversionResponse){
+    public void updateDangerLevelToRedis(final RiskConversionResponse riskConversionResponse){
         String key = keyGenerator(riskConversionResponse.getRegionCode());
         DangerResponse response = DangerResponse.from(Danger.getDanger(riskConversionResponse.getRiskOfDegree()), riskConversionResponse);
         redisTemplate.opsForValue().set(key, response);
