@@ -15,6 +15,7 @@ public class UserFindDao {
     private final UserCustomRepository userCustomRepository;
 
     public User findByUserUuId(String uuid){
+        System.out.println(uuid);
         final Optional<User> user = userRepository.findByUserUuid(uuid);
         user.orElseThrow(() -> new UserNotFoundException(uuid));
         return user.get();

@@ -1,6 +1,5 @@
 package com.GuardiansOfHoneyfruit.project.domain.user.dto;
 
-import com.GuardiansOfHoneyfruit.project.global.common.dto.Response;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

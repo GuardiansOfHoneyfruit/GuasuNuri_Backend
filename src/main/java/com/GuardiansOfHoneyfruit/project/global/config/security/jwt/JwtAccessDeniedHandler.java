@@ -15,7 +15,6 @@ import java.io.IOException;
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        System.out.println("권한없음");
         JsonResponser.sendJsonResponse(response, ErrorCode.HANDLE_ACCESS_DENIED);
     }
 }
