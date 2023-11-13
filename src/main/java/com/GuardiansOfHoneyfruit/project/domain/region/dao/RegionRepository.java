@@ -11,5 +11,8 @@ public interface RegionRepository extends JpaRepository<Region, String> {
 
     @Query("SELECT new com.GuardiansOfHoneyfruit.project.domain.region.dto.RegionNameDto(r.regionName, r.regionCode) FROM Region r")
     List<RegionNameDto> findAllRegionDto();
+
+    @Query("SELECT r.regionCode FROM Region r")
+    List<String> findAllRegionCode();
 }
 

@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public enum UserCode implements ResponseCode {
     USER_REGION_SETTING_SUCCESS("지역 설정에 성공하였습니다.", 201, HttpStatus.CREATED),
-    USER_REGION_UPDATE_SUCCESS( "지역 업데이트에 성공하였습니다.", 204,  HttpStatus.NO_CONTENT);
+    USER_REGION_UPDATE_SUCCESS( "지역 업데이트에 성공하였습니다.", 204,  HttpStatus.NO_CONTENT),
+    USER_REGION_IS_NULL("지역 설정을 해주세요.", 400, HttpStatus.BAD_REQUEST)
+    ;
 
     private final int code;
     private final String message;
