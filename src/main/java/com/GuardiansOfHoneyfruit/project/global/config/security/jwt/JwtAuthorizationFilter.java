@@ -51,7 +51,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         DefaultOAuth2User oAuth2User = new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole())),
-                attributes, "id"
+                attributes, "userUuid"
         );
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
