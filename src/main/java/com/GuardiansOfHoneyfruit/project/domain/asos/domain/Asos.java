@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "asos")
+@Table(name = "asos", indexes = @Index(name = "idx__asos_create", columnList = "created_at"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Asos {
 

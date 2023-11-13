@@ -11,7 +11,7 @@ public class RegionMessageService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendRiskOfRegionRequest(final RiskConversionRequest request){
+    public void sendDangerOfRegionRequest(final RiskConversionRequest request){
         rabbitTemplate.convertAndSend("data_processing_exchange", "data_processing_queue", request);
     }
 

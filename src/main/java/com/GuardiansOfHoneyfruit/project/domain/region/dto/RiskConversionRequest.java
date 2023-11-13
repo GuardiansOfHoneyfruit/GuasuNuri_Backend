@@ -1,5 +1,7 @@
 package com.GuardiansOfHoneyfruit.project.domain.region.dto;
 
+import com.GuardiansOfHoneyfruit.project.domain.asos.dto.AsosEntityDto;
+import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,5 +27,25 @@ public class RiskConversionRequest {
     @Valid private Double solarRadiation;
     @Valid private Double avgTotalCloudAmount;
     @Valid private Double avgGroundTemperature;
+
+    public static RiskConversionRequest fromAsosEntity(Region region, AsosEntityDto asosDto) {
+        return new RiskConversionRequest(
+                region.getRegionCode(),
+                region.getRegionName(),
+                asosDto.getTime(),
+                asosDto.getAvgTemperature(),
+                asosDto.getMinTemperature(),
+                asosDto.getMaxTemperature(),
+                asosDto.getRainDay(),
+                asosDto.getMaxWindSpeed(),
+                asosDto.getAvgWindSpeed(),
+                asosDto.getWindDirectionMax(),
+                asosDto.getAvgHumidity(),
+                asosDto.getSolarRadiation(),
+                asosDto.getAvgTotalCloudAmount(),
+                asosDto.getAvgGroundTemperature()
+        );
+    }
+
 
 }

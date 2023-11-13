@@ -1,5 +1,6 @@
 package com.GuardiansOfHoneyfruit.project.domain.asos.dto;
 
+import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
 import com.GuardiansOfHoneyfruit.project.domain.observatory.exception.InvalidTokenLengthException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -25,6 +26,24 @@ public class AsosEntityDto {
     @Valid private Double solarRadiation;
     @Valid private Double avgTotalCloudAmount;
     @Valid private Double avgGroundTemperature;
+
+    public static AsosEntityDto from(Asos asos) {
+        return new AsosEntityDto(
+                asos.getTime(),
+                asos.getAvgTemperature(),
+                asos.getMinTemperature(),
+                asos.getMaxTemperature(),
+                asos.getRainDay(),
+                asos.getMaxWindSpeed(),
+                asos.getAvgWindSpeed(),
+                asos.getWindDirectionMax(),
+                asos.getAvgHumidity(),
+                asos.getSolarRadiation(),
+                asos.getAvgTotalCloudAmount(),
+                asos.getAvgGroundTemperature()
+        );
+    }
+
 
     public static AsosEntityDto fromTokens(String[] tokens, int standardTokenLength) {
         if (tokens.length != standardTokenLength) {
