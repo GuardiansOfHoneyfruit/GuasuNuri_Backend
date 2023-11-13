@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -70,8 +73,13 @@ public class Asos {
     @Column(name = "TS_AVG")
     private Double avgGroundTemperature;
 
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+
     @Builder
-    public Asos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature) {
+    public Asos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature, LocalDateTime createdAt) {
         this.observatory = observatory;
         this.time = time;
         this.avgTemperature = avgTemperature;
@@ -85,6 +93,7 @@ public class Asos {
         this.solarRadiation = solarRadiation;
         this.avgTotalCloudAmount = avgTotalCloudAmount;
         this.avgGroundTemperature = avgGroundTemperature;
+        this.createdAt = createdAt;
     }
 
 }

@@ -20,6 +20,10 @@ public class RegionFindDao {
         return Response.of(RegionCode.GET_ALL_REGION_NAME, regionResponse);
     }
 
+    public List<String> findAllRegionCode(){
+        return regionRepository.findAllRegionCode();
+    }
+
     public Region findRegionReference(String regionCode){
         return regionRepository.getReferenceById(regionCode);
     }

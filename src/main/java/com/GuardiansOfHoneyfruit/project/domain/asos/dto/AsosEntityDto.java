@@ -27,7 +27,6 @@ public class AsosEntityDto {
     @Valid private Double avgGroundTemperature;
 
     public static AsosEntityDto fromTokens(String[] tokens, int standardTokenLength) {
-        System.out.println(tokens.length + "개다");
         if (tokens.length != standardTokenLength) {
             throw new InvalidTokenLengthException(standardTokenLength, tokens.length);
         }
