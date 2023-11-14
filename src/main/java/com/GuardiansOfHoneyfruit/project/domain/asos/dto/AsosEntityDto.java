@@ -2,12 +2,14 @@ package com.GuardiansOfHoneyfruit.project.domain.asos.dto;
 
 import com.GuardiansOfHoneyfruit.project.domain.asos.domain.Asos;
 import com.GuardiansOfHoneyfruit.project.domain.observatory.exception.InvalidTokenLengthException;
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @ToString
@@ -26,6 +28,8 @@ public class AsosEntityDto {
     @Valid private Double solarRadiation;
     @Valid private Double avgTotalCloudAmount;
     @Valid private Double avgGroundTemperature;
+    @Valid private Double avgWaterVaporPressure;
+    @Valid private Double avgDewPointTemperature;
 
     public static AsosEntityDto from(Asos asos) {
         return new AsosEntityDto(
@@ -40,7 +44,9 @@ public class AsosEntityDto {
                 asos.getAvgHumidity(),
                 asos.getSolarRadiation(),
                 asos.getAvgTotalCloudAmount(),
-                asos.getAvgGroundTemperature()
+                asos.getAvgGroundTemperature(),
+                asos.getAvgWaterVaporPressure(),
+                asos.getAvgDewPointTemperature()
         );
     }
 
@@ -62,7 +68,9 @@ public class AsosEntityDto {
                 parseToken(tokens[18]),
                 parseToken(tokens[35]),
                 parseToken(tokens[31]),
-                parseToken(tokens[16])
+                parseToken(tokens[16]),
+                parseToken(tokens[21]),
+                parseToken(tokens[15])
         );
     }
 

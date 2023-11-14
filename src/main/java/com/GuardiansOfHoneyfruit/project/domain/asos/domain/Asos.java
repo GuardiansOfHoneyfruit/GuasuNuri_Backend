@@ -73,13 +73,21 @@ public class Asos {
     @Column(name = "TS_AVG")
     private Double avgGroundTemperature;
 
+    @Comment("일 평균 수증기압")
+    @Column(name = "PV_AVG")
+    private Double avgWaterVaporPressure;
+
+    @Comment("일 평균 이슬점온도")
+    @Column(name = "TD_AVG")
+    private Double avgDewPointTemperature;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
 
     @Builder
-    public Asos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature, LocalDateTime createdAt) {
+    public Asos(Observatory observatory, String time, Double avgTemperature, Double minTemperature, Double maxTemperature, Double rainDay, Double maxWindSpeed, Double avgWindSpeed, Double windDirectionMax, Double avgHumidity, Double solarRadiation, Double avgTotalCloudAmount, Double avgGroundTemperature, LocalDateTime createdAt, Double avgWaterVaporPressure, Double avgDewPointTemperature) {
         this.observatory = observatory;
         this.time = time;
         this.avgTemperature = avgTemperature;
@@ -94,6 +102,8 @@ public class Asos {
         this.avgTotalCloudAmount = avgTotalCloudAmount;
         this.avgGroundTemperature = avgGroundTemperature;
         this.createdAt = createdAt;
+        this.avgDewPointTemperature = avgDewPointTemperature;
+        this.avgWaterVaporPressure = avgWaterVaporPressure;
     }
 
 }

@@ -22,7 +22,7 @@ public class RegionDangerService {
 
     public void updateDangerLevelToRedis(final RiskConversionResponse riskConversionResponse){
         String key = keyGenerator(riskConversionResponse.getRegionCode());
-        DangerResponse response = DangerResponse.from(Danger.getDanger(riskConversionResponse.getRiskOfDegree()), riskConversionResponse);
+        DangerResponse response = DangerResponse.from(Danger.getDanger(riskConversionResponse.getDangerLevel()), riskConversionResponse);
         redisTemplate.opsForValue().set(key, response);
     }
 
