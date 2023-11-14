@@ -22,8 +22,8 @@ public class UserController {
     private final UserUpdateService userUpdateService;
 
     @GetMapping("")
-    public ResponseEntity<Response> getUserInfo(@AuthenticationPrincipal OAuth2User oAuth2User){
-        Response response = Response.of(CommonCode.GOOD_REQUEST, userFindDao.findByUserUuId(oAuth2User.getAttributes().get("userUuid").toString()));
+    public ResponseEntity<Response> getUserUuid(@AuthenticationPrincipal OAuth2User oAuth2User){
+        Response response = Response.of(CommonCode.GOOD_REQUEST, oAuth2User.getAttributes().get("userUuid").toString());
         return ResponseEntity.ok(response);
     }
 
