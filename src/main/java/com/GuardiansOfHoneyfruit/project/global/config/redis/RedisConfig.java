@@ -50,8 +50,8 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, RiskConversionResponse> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, RiskConversionResponse> template = new RedisTemplate<>();
+    public RedisTemplate<String, DangerResponse> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, DangerResponse> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
         // JSON 직렬화를 위한 설정

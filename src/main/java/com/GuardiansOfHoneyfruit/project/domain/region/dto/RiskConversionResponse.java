@@ -10,12 +10,12 @@ public class RiskConversionResponse {
 
     private String regionName;
     private String regionCode;
-    private int riskOfDegree;
+    private int dangerLevel;
 
-    public RiskConversionResponse(String regionCode, String regionName, int riskOfDegree){
+    public RiskConversionResponse(String regionCode, String regionName, int dangerLevel){
         this.regionCode = regionCode;
         this.regionName = regionName;
-        this.riskOfDegree = riskOfDegree;
+        this.dangerLevel = dangerLevel;
     }
 
 }
