@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserRegionService {
 
     private final RegionDangerService regionDangerService;
-    private final UserFindDao userFindDao;
+
     public Response getUserRegionDangerLevel(final OAuth2User oAuth2User){
         try {
             return regionDangerService.getDangerLevelAtSingleRegion(oAuth2User.getAttributes().get("region").toString());

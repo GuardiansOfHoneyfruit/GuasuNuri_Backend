@@ -1,10 +1,11 @@
 package com.GuardiansOfHoneyfruit.project.domain.region.dto;
 
 import com.GuardiansOfHoneyfruit.project.domain.region.domain.Danger;
-import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -14,7 +15,7 @@ public class DangerResponse {
     private String regionCode;
     private String degreeName;
     private Double dangerLevel;
-    private String toolTip;
+    private List<String> toolTip;
 
     public static DangerResponse from(Danger danger, RiskConversionResponse conversionResponse){
         return new DangerResponse(danger, conversionResponse.getRegionName(), conversionResponse.getRegionCode());
