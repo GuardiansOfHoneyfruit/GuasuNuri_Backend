@@ -54,7 +54,6 @@ public class RedisConfig {
         RedisTemplate<String, DangerResponse> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
-        // JSON 직렬화를 위한 설정
         Jackson2JsonRedisSerializer<DangerResponse> serializer =
                 new Jackson2JsonRedisSerializer<>(DangerResponse.class);
         template.setValueSerializer(serializer);
@@ -67,7 +66,7 @@ public class RedisConfig {
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        // 캐싱 설정을 정의
+
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofHours(1))
                 .disableCachingNullValues();
