@@ -1,5 +1,6 @@
 package com.GuardiansOfHoneyfruit.project.domain.user.dao;
 
+import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import com.GuardiansOfHoneyfruit.project.domain.user.domain.User;
 import com.GuardiansOfHoneyfruit.project.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class UserFindDao {
     public Optional<User> findOptionalUserByEmail(String email){
         final Optional<User> user = userRepository.findByEmail(email);
         return user;
+    }
+
+    public Optional<String> findOptionalUserRegionCode(String userUuid){
+        final Optional<String> region = userRepository.findUserRegionCodeByUserUuid(userUuid);
+        return region;
     }
 
     public boolean isUserRegionNull(String userUuid){
