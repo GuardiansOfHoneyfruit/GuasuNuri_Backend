@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class UserRegionService {
 
     private final RegionDangerService regionDangerService;
+    private final UserFindDao userFindDao;
 
     public Response getUserRegionDangerLevel(final OAuth2User oAuth2User){
         try {
-            return regionDangerService.getDangerLevelAtSingleRegion(oAuth2User.getAttributes().get("region").toString());
+            String regionCode = userFindDao.findOptionalUserRegionCode(oAuth2User.getAttributes().get("userUuid").toString()).get();
+            return regionDangerService.getDangerLevelAtSingleRegion(regionCode);
         } catch (NullPointerException e){
             return Response.of(UserCode.USER_REGION_IS_NULL);
         }
