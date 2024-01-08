@@ -39,7 +39,7 @@ import java.util.List;
 public class SoilBatchConfiguration extends DefaultBatchConfiguration {
 
     private final EntityManagerFactory entityManagerFactory;
-    private final int chunkSize = 1000;
+    private final int chunkSize = 100;
     @Value("${api.keys.data-kr.encoding}")
     private String serviceKey;
 
@@ -84,6 +84,7 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
             String xmlResponse = response.getBody();
+
             // 2. XML 응답을 DTO로 변환
             List<SoilResponseDto> soilResponseDtoList = new ArrayList<>();
             try {
@@ -98,7 +99,7 @@ public class SoilBatchConfiguration extends DefaultBatchConfiguration {
             if (soilResponseDtoList.isEmpty()) {
                 return null;
             }
-
+            soilResponseDtoList.forEach(pnu::addSoil);
             for (SoilResponseDto dto : soilResponseDtoList) {
                 pnu.addSoil(dto);
             }
