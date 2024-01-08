@@ -1,6 +1,5 @@
 package com.GuardiansOfHoneyfruit.project.domain.user.dao;
 
-import com.GuardiansOfHoneyfruit.project.domain.region.domain.Region;
 import com.GuardiansOfHoneyfruit.project.domain.user.domain.User;
 import com.GuardiansOfHoneyfruit.project.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;

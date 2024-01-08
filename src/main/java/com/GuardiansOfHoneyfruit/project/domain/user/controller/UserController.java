@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserFindDao userFindDao;
     private final UserRegionService userRegionService;
     private final UserUpdateService userUpdateService;
 
